@@ -20,8 +20,11 @@
     <script type="text/javascript" src="<?= base_url('js/jquery.min.js'); ?>"></script>
     <script type="text/javascript" src="<?= base_url('js/jquery-ui.min.js'); ?>"></script>
     <script type="text/javascript" src="<?= base_url('js/select2.min.js'); ?>"></script>
+    <link rel="stylesheet" type="text/css" href="<?= base_url('css/jquery.dataTables.css'); ?>">
     <style>
-        
+        .swal-overlay {
+            z-index: 100000000000 !important;
+        }
         .has-search .form-control {
             padding-left: 2.375rem;
         }
@@ -132,6 +135,7 @@
 <script type="text/javascript" src="<?= base_url('js/sweetalert.min.js'); ?>"></script>
 
 <script type="text/javascript" src="<?= base_url('js/datatables.min.js'); ?>"></script>
+<script type="text/javascript" src="<?= base_url('js/dataTables.bootstrap5.min.js'); ?>"></script>
 <script type="text/javascript" src="<?= base_url('js/dataTables.select.min.js'); ?>"></script>
 <script type="text/javascript" src="<?= base_url('js/dataTables.checkboxes.min.js'); ?>"></script>
 <script type="text/javascript" src="<?= base_url('js/load.js'); ?>"></script>

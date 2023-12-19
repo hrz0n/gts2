@@ -7,16 +7,16 @@ use CodeIgniter\Model;
 class PendaftaranModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'pendaftarans';
+    protected $table            = 'tbl_user_kegiatan';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['id_user_kegiatan','id_kegiatan_tr','biaya_pendaftaran','status_kegiatan'];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';

@@ -18,7 +18,6 @@
                 <div class="d-flex flex-wrap justify-content-between">
                     <div style="margin-left:-18px;" class="col-md-6 mb-1">
                         <a id="refreshdata" href="javascript:void(0);" class="btn float-left ml-1 mb-1 btn-sm btn-pill btn btn-dark"><b><i class="feather icon-rotate-ccw"></i> Refresh</b></a>
-                        <a id="tambahdata" href="javascript:void(0);" class="btn float-left ml-1 mb-1 btn-sm btn-pill btn btn-primary"><b><i class="feather icon-plus"></i> Tambah</b></a>
                         <a id="cetakdata" href="javascript:void(0);" class="btn btn-sm float-left ml-1 mb-1 btn-pill btn btn-success"><b><i class="feather icon-printer"></i> Cetak</b></a>
                     </div>
                     <div class="col-md-4">
@@ -41,12 +40,8 @@
                                 <th width="20px">#</th>
                                 <th width="26px">No</th>
                                 <th width="1000px">Nama Kegiatan<br><small class="text-muted">Alamat (Blok dan nomor)</small></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th>Status<br><small class="text-muted">(Aktif, TIdak Aktif)</small></th>
-                                <th width="400px">Aksi<br><small class="text-muted">(Edit dan Hapus)</small></th>
+                                <th width="1000px">Keterangan</th>
+                                <th width="400px">Aksi<br><small class="text-muted">(Daftarkan Anggota)</small></th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -69,138 +64,65 @@
                 </div>
                 <div class="modal-body form">
                     <form id="form" class="form-horizontal" method="POST">
-                        <input type="hidden" value="" name="x_id" />
+                        <input type="hidden" value="" name="x_id_user_kegiatan" id="x_id_user_kegiatan"/>
                         <div class="form-body">                            
                             <div class="form-group form-group-sm row">
-                                <label for="nama_depan" class="col-sm-3 col-form-label"><b>Nama Depan</b><span class="text-danger">*</span></label>
+                                <label class="col-sm-12 col-form-label"><h4><div id="nama">Budi Matondang NO. KK [1234567817651]</div></h4></label>
+                            </div>
+
+                            <div style="margin-top:-32px;" class="form-group form-group-sm row">
+                                <label  class="col-sm-12 col-form-label text-muted"><b><div id="alamat">Griya Sejahtera 2 Blok G No 10</div></b></label>
+                            </div>
+
+                            <div style="margin-top:-20px;" class="form-group form-group-sm row">
+                                <div class="col-sm-12 table-responsive" id="daftar_kegiatan_modal">
+                                    <table class='table table-sm border-less'>
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th style="width:20px;">#</th>
+                                                <th>Kegiatan</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbl-kegiatan-modal">
+                                            <tr>
+                                                <td>1.</td>
+                                                <td>HSAJKDHA ASDKJASKDSAD SASAD</td>
+                                                <td>Hapus</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div  class="form-group form-group-sm row">
+                                <label for="kegiatan" class="col-sm-3 col-form-label"><b>Kegiatan<span class="text-danger">*</span></b></label>
                                 <div class="col-sm-9">
-                                    <input placeholder="Nama Depan" id="nama_depan" class="form-control" type="text" name="nama_depan" value="" required>
-                                </div>
-                            </div>
-
-                            <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="nama_belakang" class="col-sm-3 col-form-label"><b>Nama Belakang</b></label>
-                                <div class="col-sm-9">
-                                    <input placeholder="Nama Belakang" id="nama_belakang" class="form-control" type="text" name="nama_belakang" value="">
-                                </div>
-                            </div>
-
-                            <div style="margin-top:-4px;" class="form-group form-group-sm row">
-                                <label for="jk" class="col-sm-3 col-form-label"><b>Jenis Kelamin</b><span class="text-danger">*</span></label>
-                                <div id="jenisk" class="col-sm-9">
-                                    <div class="form-check form-check-inline mr-1">
-                                        <input class="form-check-input"  type="radio" value="L" name="jk">
-                                        <label class="form-check-label" for="jk">Laki-laki</label>
-                                    </div>
-                                    <div class="form-check form-check-inline mr-1">
-                                        <input class="form-check-input" type="radio" value="P" name="jk">
-                                        <label class="form-check-label"  for="jk">Perempuan</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="email" class="col-sm-3 col-form-label"><b>Email</b></label>
-                                <div class="col-sm-9">
-                                    <input placeholder="Email, Ex: harison@gmail.com" id="email" class="form-control" type="text" name="email" value="">
-                                </div>
-                            </div>
-
-                            <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="tmpt_lahir" class="col-sm-3 col-form-label"><b>Tempat Lahir</b></label>
-                                <div class="col-sm-9">
-                                    <input placeholder="Tempat lahir, Ex : Muara Mais" id="tmpt_lahir" class="form-control" type="text" name="tmpt_lahir" value="">
-                                </div>
-                            </div>
-
-                            <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="tgl_lahir" class="col-sm-3 col-form-label"><b>Tanggal Lahir</b></label>
-                                <div class="col-sm-4">
-                                    <input placeholder="Tanggal lahir" id="tgl_lahir" class="form-control" type="date" name="tgl_lahir" value="<?= date('Y-m-d') ?>">
-                                </div>
-                            </div>
-
-                            <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="no_hp" class="col-sm-3 col-form-label"><b>Nomor Hp</b></label>
-                                <div class="col-sm-9">
-                                    <input placeholder="No Hp, Ex: 0987618171" id="no_hp" class="form-control" type="text" name="no_hp" value="">
-                                </div>
-                            </div>
-
-                            <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="alamat" class="col-sm-3 col-form-label"><b>Alamat</b></label>
-                                <div class="col-sm-9">
-                                    <textarea placeholder="Alamat, Ex: Perumahan Griya Tanjung Payang Sejahtera 2" id="alamat" class="form-control" type="text" name="alamat" value=""></textarea>
-                                </div>
-                            </div>
-
-                            <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="blok" class="col-sm-3 col-form-label"><b>Blok Rumah</b></label>
-                                <div class="col-sm-9">
-                                    <select id="blok" name="blok" class="form-control">
-                                        <?php
-                                        $dataBlok = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-                                        foreach ($dataBlok as $key => $value) {
-                                            echo "<option value='".$value."'>".$value."</option>";
-                                        }
-                                        ?>
+                                    <select id="kegiatan" name="kegiatan" class="form-control">
                                     </select>
                                 </div>
                             </div>
 
                             <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="nomor" class="col-sm-3 col-form-label"><b>Nomor Rumah</b></label>
+                                <label for="biaya" class="col-sm-3 col-form-label"><b>Biaya Pendaftaran<span class="text-danger">*</span></b></label>
                                 <div class="col-sm-9">
-                                    <input placeholder="Nomor, Ex : 10" id="nomor" class="form-control" type="text" name="nomor" value="">
+                                    <input placeholder="Biaya, Ex : 100000" id="biaya" class="form-control" type="text" name="biaya" value="0">
                                 </div>
                             </div>
 
                             <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="nomor_kk" class="col-sm-3 col-form-label"><b>Nomor KK</b></label>
+                                <label for="" class="col-sm-3 col-form-label"></label>
                                 <div class="col-sm-9">
-                                    <input placeholder="Nomor KK, Ex : 19878772887728820001" id="nomor_kk" class="form-control" type="text" name="nomor_kk" value="">
-                                </div>
-                            </div>
-
-                            <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="jmlh_jiwa" class="col-sm-3 col-form-label"><b>Jumlah Jiwa<span class="text-danger">*</span></b></label>
-                                <div class="col-sm-9">
-                                    <select id="jmlh_jiwa" name="jmlh_jiwa" class="form-control">
-                                        <?php
-                                            for ($i=1; $i < 11 ; $i++) { 
-                                                echo "<option value='".$i."'>".$i."</option>";
-                                            }
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="status_rumah" class="col-sm-3 col-form-label"><b>Status Rumah<span class="text-danger">*</span></b></label>
-                                <div class="col-sm-9">
-                                    <select id="status_rumah" name="status_rumah" class="form-control">
-                                        <option value="TETAP">Milik Sendiri</option>
-                                        <option value="KONTRAK">Kontrak</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="status_penduduk" class="col-sm-3 col-form-label"><b>Status Penduduk<span class="text-danger">*</span></b></label>
-                                <div class="col-sm-6">
-                                    <select id="status_penduduk" name="status_penduduk" class="form-control">
-                                        <option value="AKTIF">Aktif</option>
-                                        <option value="TIDAK AKTIF">Tidak Aktif</option>
-                                    </select>
+                                <button id="simpanData" name="simpanData" type="button" class="btn btn-primary btn-pill"><b><i class="feather icon-navigation"></i> Tambah Kegiatan</b></button>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer bg-light">
-                <p class="float-left">Semua tanda (<span class="text-danger">*</span>) wajib diisi!</p>
-                    <button type="button" class="btn-pill btn btn-warning" data-dismiss="modal"><i class="feather icon-rotate-ccw"></i> Batal</button>
-                    <button id="simpanData" name="simpanData" type="button" class="btn btn-primary btn-pill"><b><i class="feather icon-navigation"></i> Simpan</b></button>
+                <p class="float-left">Semua tanda (<span class="text-danger">*</span>) wajib diisi, isi <code>0</code> jika biaya gratis!</p>
+                    <button type="button" class="btn-pill btn btn-warning" data-dismiss="modal"><i class="feather icon-rotate-ccw"></i> Selesai</button>
                 </div>
             </div>
         </div>
@@ -294,12 +216,16 @@
 <script type="text/javascript">
     var table;
     var save_method;
-    var idblok=0;
-    var idkat=0;
-
-    var urlserver = "<?= base_url('admin/master/kegiatan/');?>";
+    var id_kegiatan=0;
+    var urlserver = "<?= base_url('admin/master/anggota/');?>";
 
   $(document).ready(function() {
+
+    $('#kegiatan').on('change',function() {
+        id_kegiatan = $(this).val();
+        $("#biaya").val(0);
+        getKegiatan(id_kegiatan);
+    });
 
     $('#refreshdata').click(function(){
   	    $('#tbl-jadwal').DataTable().ajax.reload();
@@ -312,29 +238,13 @@
         $('#confirmCetak').modal('show');
     });
 
-    $('#tambahdata').click(function(){
-        save_method = 'add';
-        $('#modal_form').trigger('reset');
-        $('#form')[0].reset();
-        $('[name="x_id"]').val();
-        $('.form-group').removeClass('has-error');
-        $('.help-block').empty();
-
-        $('input[type=radio][name="jk"][value=L]').prop('checked', true);
-        $('#status_rumah').val("TETAP").trigger('change');
-        $('#status_penduduk').val("AKTIF").trigger('change');
-        $('#jmlh_jiwa').val("1").trigger('change');
-        $('#modal-title').text('Tambah data warga');
-        $('#modal_form').modal('show');
-    });
-
     $('#modal_form').on('hidden.bs.modal', function () {
         $('#modal_form').trigger('reset');
         $('#form')[0].reset();
     });
 
 	$('#modal_form').on('shown.bs.modal', function () {
-        $('#nama_depan').focus();
+        $('#kegiatan').focus();
 	});
 
     $('input.global_filter').on( 'keyup click', function () {
@@ -343,8 +253,9 @@
 
     $('#simpanData').click(function(){
         var url;
+        var user_id = $('#x_id_user_kegiatan').val();
         if(save_method == 'add') {
-            url = urlserver+"simpan";
+            url = urlserver+"simpankegiatan";
         } else {
             url = urlserver+"edit";
         }
@@ -364,11 +275,12 @@
                 } else {
                     swal({
                         title: "Pakam kak!",
-                        text: "Data berhasil disimpan!",
+                        text: data.message,
                         icon: "success",
                     });
                 }
-                $('#modal_form').modal('hide');
+                // $('#modal_form').modal('hide');
+                insertTableKegiatan(user_id);
                 $('#tbl-jadwal').DataTable().ajax.reload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -423,7 +335,7 @@
 
     table = $('#tbl-jadwal').DataTable({
         processing: true,
-        serverSide: true,
+        // serverSide: true,
         deferRender: true,
         bDestroy: true,
         olReorder: true,
@@ -431,7 +343,12 @@
         dom: 'tip',
         ordering:true,
         searching: true,
-        ajax: '<?= base_url('admin/master/kegiatan/index_ajax');?>',
+        ajax:{
+            'url':'<?= base_url('admin/master/anggota/index_ajax');?>',
+            'type':"GET",
+            'dataType': "JSON",
+            'data':''
+        },
         pageLength: 40,
         language: {
             'search': "Filter Data",
@@ -440,9 +357,6 @@
         },
         fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
             table.cell( nRow, 1 ).data(iDisplayIndex+1);
-            
-			table.cell( nRow, 2 ).data('<b>'+aData[2]+'</b><br><small class="text-muted">'+aData[3]+'</small><br><h4>Rp.'+aData[4]+'</h4><span class="badge badge-primary">'+aData[5]+'</span> <span class="badge badge-danger">'+aData[6]+'</span>');
-
         },
 
         columnDefs :[
@@ -468,29 +382,7 @@
             "orderable":true,
             'searchable': true,
         },
-        {
-            "targets": 3,
-            "visible": false
-        },
-        {
-            "targets": 4,
-            "visible": false
-        },
-        {
-            "targets": 5,
-            "visible": false
-        },
-        {
-            "targets": 6,
-            "visible": false
-        },
-
-        {
-            "targets": 7,
-            'className': 'text-center align-middle',
-            "orderable":true,
-            'searchable': true,
-        },
+       
 
         {
             "targets": -1,
@@ -508,7 +400,17 @@
       order: [[1, 'DESC']]
 
     });
+
 });
+
+function detailWarga(user_id) {
+    insertTableKegiatan(user_id);
+    getKegiatan(0);
+    save_method = 'add';
+    $('[name="x_id_user_kegiatan"]').val(user_id);
+    $('#modal-title').text('Detail Kegiatan Warga');
+    $('#modal_form').modal('show');
+}
 
 function filterGlobal () {
     $('#tbl-jadwal').DataTable().search(
@@ -518,69 +420,24 @@ function filterGlobal () {
     ).draw();
 }
 
-function tblEdit(user_id) {
-    save_method = 'update';
-    var idgroup = [];
-    var r_data = table.row($(this).parents('tr')).data();
-    $('#form')[0].reset();
-      $.ajax({
-        url : urlserver+"detail/"+user_id,
-        type: "POST",
-        data:'x_id='+r_data[0],
-        dataType: "JSON",
-        success: function(data) {
-          $('[name="x_id"]').val(data.x_id);
-          $('[name="x_name"]').val(data.x_name);
-          $('[name="x_password"]').val('flyexam');
-          $('[name="x_email"]').val(data.x_email);
-          $('[name="x_f_name"]').val(data.x_f_name);
-          $('[name="x_l_name"]').val(data.x_l_name);
-          $('[name="x_level"]').val(data.x_level);
-          $('[name="x_tmpt_lahir"]').val(data.x_birthplace);
-          $('[name="x_tgllahir"]').val(data.x_birthdate);
-          $('#x_level').val(data.x_level).trigger('change');
-          $('input[type=radio][name="jk"][value="'+data.x_jk+'"]').prop('checked', true);
-
-          $('#modal-title').text('Update data warga');
-          $('#modal_form').modal('show');
-        },
-        error: function (jqXHR, textStatus, errorThrown){
-            swal({  title: "Error!",
-                    text: "Oupppssss.... Error saat mencoba menghubungi server!",
-                    icon: "error",
-                });
-        }
-    });
-
-
-}
-
-function tblDetail(user_id) {
-    save_method = 'update';
-    $('#form')[0].reset();
-      $.ajax({
-        url : urlserver+"detail/"+user_id+".html",
-        type: "POST",
+function getKegiatan(id_kegiatan) {
+    $.ajax({
+        url : urlserver+"getkegiatan/"+id_kegiatan,
+        type: "GET",
         data:'',
         dataType: "JSON",
         success: function(data) {
-            $('[name="x_id"]').val(user_id);
-            $('[name="nama_depan"]').val(data.data['user_firstname']);
-            $('[name="nama_belakang"]').val(data.data['user_lastname']);
-            $('input[type=radio][name="jk"][value="'+data.data['user_gender']+'"]').prop('checked', true);
-            $('[name="email"]').val(data.data['user_email']);
-            $('[name="tmpt_lahir"]').val(data.data['user_birthplace']);
-            $('[name="tgl_lahir"]').val(data.data['user_birthdate']);
-            $('[name="no_hp"]').val(data.data['no_hp']);
-            $('[name="alamat"]').val(data.data['alamat']);
-            $('[name="blok"]').val(data.data['blok']);
-            $('[name="nomor"]').val(data.data['nomor']);
-            $('[name="nomor_kk"]').val(data.data['no_kk']);
-            $('#jmlh_jiwa').val(data.data['jmlh_jiwa']).trigger('change');
-            $('#status_rumah').val(data.data['kategori_user']).trigger('change');
-            $('#status_penduduk').val(data.data['user_status']).trigger('change');
-            $('#modal-title').html('Update data warga <b>'+ data.data['user_firstname']+' '+data.data['user_lastname']+'</b>');
-            $('#modal_form').modal('show');
+            if (id_kegiatan > 0) {
+                $('#biaya').val(data.data[0]['biaya']);
+            } else {
+                var s = '';
+                s += '<option value="0">Pilih kegiatan</option>';
+                for (var i = 0; i < data.data.length; i++) {
+                s += '<option value="' + data.data[i]['id_kegiatan'] + '">'+ data.data[i]['nama_kegiatan'] + ' ('+data.data[i]['tipe_bayar'] +' - '+data.data[i]['metode_bayar']+' )' +'</option>';
+                }
+                $("#kegiatan").html(s);
+            }
+
         },
         error: function (jqXHR, textStatus, errorThrown){
             swal({  title: "Error!",
@@ -589,30 +446,31 @@ function tblDetail(user_id) {
                 });
         }
     });
-
-
 }
 
-function tblHapus(user_id) {
-    $('[name="x_id_hapus"]').val(user_id);
-    $('#modal-title-hapus').text('Hapus data warga');
-    $('#confirmDelete').modal('show');
-}
-
-function getPenduduk(kat, blok) {
+function insertTableKegiatan(id_user) {
     $.ajax({
-        url : urlserver+"index_filter/"+kat+"/"+blok,
+        url : urlserver+"getkegiatanuser/"+id_user,
         type: "GET",
         data:'',
         dataType: "JSON",
         success: function(data) {
             var s = '';
-            s += '<option value="0">Semua Warga</option>';
-            for (var i = 0; i < data.data.length; i++) {
-            s += '<option value="' + data.data[i]['user_id'] + '">'+ data.data[i]['user_firstname'] + ' ' + data.data[i]['user_lastname']+ ' ('+data.data[i]['blok'] +''+data.data[i]['nomor']+' )' +'</option>';
+            if (data.data.length > 0) {
+                var no = 0;
+                for (var i = 0; i < data.data.length; i++) {
+                    no++;
+                    s += '<tr>';
+                    s += '<td>'+ no+'</td>';
+                    s += '<td>'+ data.data[i]['nama_kegiatan']+'</td>';
+                    s += '<td><a onclick="tblHapus('+ data.data[i]['id']+')" href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="feather icon-trash-2"></i></a></td>';
+                    s += '</tr>';
+                }
+                
+            } else {
+                s = '<tr class="text-muted text-center"><td colspan="3">Belum terdaftar dalam kegiatan apapun</td></tr>'
             }
-            $("#c_warga").html(s);
-
+            $("#tbl-kegiatan-modal").html(s);
         },
         error: function (jqXHR, textStatus, errorThrown){
             swal({  title: "Error!",
@@ -622,6 +480,7 @@ function getPenduduk(kat, blok) {
         }
     });
 }
+
 </script>
 
 

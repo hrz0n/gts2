@@ -41,3 +41,6 @@ $routes->get('/admin/master/kegiatan/index_ajax', 'Kegiatan::getDataAjax', ['fil
 // master penaftaran anggota
 $routes->get('/admin/master/anggota.html', 'Pendaftaran::index', ['filter' => 'authGuard']);
 $routes->get('/admin/master/anggota/index_ajax', 'Pendaftaran::getDataAjax', ['filter' => 'authGuard']);
+$routes->get('/admin/master/anggota/getkegiatan/(:num)', 'Kegiatan::getAllKegiatanAjax/$1', ['filter' => 'authGuard']);
+$routes->post('/admin/master/anggota/simpankegiatan', 'Pendaftaran::simpan', ['filter' => 'authGuard']);
+$routes->get('/admin/master/anggota/getkegiatanuser/(:num)', 'Pendaftaran::getKegiatanAjax/$1', ['filter' => 'authGuard']);

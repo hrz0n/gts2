@@ -24,7 +24,7 @@ class Kegiatan extends BaseController
     {
         if (session()->get('user_level') > 0 && session()->get('isLoggedIn')) {
             $datamodel = new KegiatanModel();
-            $builder = $datamodel->select('id_kegiatan,id_kegiatan,nama_kegiatan,deskripsi_kegiatan,biaya,metode_bayar,tipe_bayar,status_kegiatan')
+            $builder = $datamodel->select('id_kegiatan,id_kegiatan,nama_kegiatan,deskripsi_kegiatan,biaya,metode_bayar,tipe_bayar,pendaftaran,status_kegiatan')
                     ->orderBy('tipe_bayar ASC', 'nama_kegiatan ASC');
             
             return DataTable::of($builder)->add(null, function($row){
@@ -34,5 +34,29 @@ class Kegiatan extends BaseController
             })->toJson();          
 
         }
+    }
+
+    public function getAllKegiatanAjax($id_kegiatan)
+    {
+        $thn_now = date('Y');
+        $datamodel = new KegiatanModel();
+
+        if ($id_kegiatan > 0) {
+            $data = $datamodel->select('*')
+            ->where('id_kegiatan',$id_kegiatan)
+            ->findAll();
+        } else {
+            $data = $datamodel->select('*')
+            ->where('tahun',$thn_now)
+            ->where('status_kegiatan','AKTIF')
+            ->orderBy('tipe_bayar ASC')
+            ->findAll();
+        }
+
+        $output = [
+            'data' => $data,
+        ];
+
+        echo json_encode( $output );
     }
 }

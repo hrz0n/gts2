@@ -13,7 +13,7 @@ class KegiatanModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama_kegiatan','deskripsi_kegiatan','biaya','metode_bayar','tipe_bayar','status_kegiatan'];
+    protected $allowedFields    = ['nama_kegiatan','deskripsi_kegiatan','biaya','metode_bayar','tipe_bayar','pendaftaran','status_kegiatan'];
 
     // Dates
     protected $useTimestamps = true;

@@ -45,6 +45,7 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
                                 <th>Status<br><small class="text-muted">(Aktif, TIdak Aktif)</small></th>
                                 <th width="400px">Aksi<br><small class="text-muted">(Edit dan Hapus)</small></th>
                             </tr>
@@ -440,9 +441,14 @@
         },
         fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
             table.cell( nRow, 1 ).data(iDisplayIndex+1);
+            var _pendaftaran = '';
+            if (aData[7] > 0) {
+                _pendaftaran = '<b>Pendaftaran : Rp. '+aData[7]+"</b>";
+            }
             
-			table.cell( nRow, 2 ).data('<b>'+aData[2]+'</b><br><small class="text-muted">'+aData[3]+'</small><br><h4>Rp.'+aData[4]+'</h4><span class="badge badge-primary">'+aData[5]+'</span> <span class="badge badge-danger">'+aData[6]+'</span>');
+			table.cell( nRow, 2 ).data('<b>'+aData[2]+'</b><br><small class="text-muted">'+aData[3]+'</small><br>'+_pendaftaran+'<h4>Rp.'+aData[4]+'</h4><span class="badge badge-primary">'+aData[5]+'</span> <span class="badge badge-danger">'+aData[6]+'</span>');
 
+            
         },
 
         columnDefs :[
@@ -484,14 +490,16 @@
             "targets": 6,
             "visible": false
         },
-
         {
             "targets": 7,
+            "visible": false
+        },
+        {
+            "targets": 8,
             'className': 'text-center align-middle',
             "orderable":true,
             'searchable': true,
         },
-
         {
             "targets": -1,
             'className': 'text-center align-middle',

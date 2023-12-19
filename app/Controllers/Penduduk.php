@@ -108,7 +108,7 @@ class Penduduk extends BaseController
     public function edit() {
         helper(['config_helper']);
         $datamodel = new LoginModel();
-        if ($this->request->getPost('x_id') == '' || $this->request->getPost('nomor_kk') == '' || $this->request->getPost('nama_depan') == '') {
+        if ($this->request->getPost('x_id') == '' || $this->request->getPost('nama_depan') == '') {
             $error = true;
             $message = 'Field dengan tanda merah wajib diisi!!';
         } else {
