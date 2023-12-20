@@ -280,7 +280,7 @@
                     </div>
                     <div class="modal-footer bg-light">
                         <button type="button" class="float-left ml-1 btn-pill btn btn-secondary" data-dismiss="modal"><i class="feather icon-rotate-ccw"></i> Batal</button>
-                        <a target="balnk" href="<?= base_url('admin/master/penduduk/cetak/pdf');?>" class="float-left ml-1 btn-pill btn btn-success " id="cetak-pdf-confirm-button"><i class="feather icon-printer"></i> Ekspor PDF</a>
+                        <a onClick="cetakPDF()" href="javascript:void(0);" class="float-left ml-1 btn-pill btn btn-success " id="cetak-pdf-confirm-button"><i class="feather icon-printer"></i> Ekspor PDF</a>
                     </div>
                 </form>
             </div>
@@ -379,8 +379,9 @@
                         text: "Data berhasil disimpan!",
                         icon: "success",
                     });
+                    $('#modal_form').modal('hide');
                 }
-                $('#modal_form').modal('hide');
+                
                 $('#tbl-jadwal').DataTable().ajax.reload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -451,7 +452,6 @@
             'processing': 'Sedang memuat data, mohon tunggu sebentar...'
         },
         fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-            table.cell( nRow, 1 ).data(iDisplayIndex+1);
             var h_nik = '';
             if (aData[7] != '') {
                 h_nik = '[ '+aData[7]+' ]';
@@ -532,6 +532,14 @@
         'selector': 'td:first-child'
       },
       order: [[1, 'DESC']]
+
+    });
+
+    table.on( 'draw draw.dt order.dt search.dt', function () {
+        var PageInfo = $('#tbl-jadwal').DataTable().page.info();
+        table.column(1, { page: 'current' }).nodes().each( function (cell, i) {
+                cell.innerHTML = i + 1 + PageInfo.start+".";
+        });
 
     });
 });
@@ -647,6 +655,15 @@ function getPenduduk(kat, blok) {
                 });
         }
     });
+}
+
+function cetakPDF() {
+
+    var kat = $('#c_kat').val();
+    var blok = $('#c_blok').val();
+    var user_id = $('#c_warga').val();
+
+    window.location = urlserver+"cetak/pdf/"+kat+"/"+blok+"/"+user_id;
 }
 </script>
 

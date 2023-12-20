@@ -440,15 +440,12 @@
             'processing': 'Sedang memuat data, mohon tunggu sebentar...'
         },
         fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-            table.cell( nRow, 1 ).data(iDisplayIndex+1);
             var _pendaftaran = '';
             if (aData[7] > 0) {
                 _pendaftaran = '<b>Pendaftaran : Rp. '+aData[7]+"</b>";
             }
             
 			table.cell( nRow, 2 ).data('<b>'+aData[2]+'</b><br><small class="text-muted">'+aData[3]+'</small><br>'+_pendaftaran+'<h4>Rp.'+aData[4]+'</h4><span class="badge badge-primary">'+aData[5]+'</span> <span class="badge badge-danger">'+aData[6]+'</span>');
-
-            
         },
 
         columnDefs :[
@@ -514,6 +511,14 @@
         'selector': 'td:first-child'
       },
       order: [[1, 'DESC']]
+
+    });
+
+    table.on( 'draw draw.dt order.dt search.dt', function () {
+        var PageInfo = $('#tbl-jadwal').DataTable().page.info();
+        table.column(1, { page: 'current' }).nodes().each( function (cell, i) {
+                cell.innerHTML = i + 1 + PageInfo.start+".";
+        });
 
     });
 });

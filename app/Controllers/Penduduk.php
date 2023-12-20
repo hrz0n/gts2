@@ -173,89 +173,130 @@ class Penduduk extends BaseController
         echo json_encode( $output );
     }
 
-    public function cetakWargaPDF() {
+    public function cetakWargaPDF($kat="", $blok="", $id_user=0) {
         $datamodel = new LoginModel();
+        $where = [
+            'user_level' => 0
+        ];
+        $nama_file = "Rekap_Data_Warga_".date('Y')."_";
+        if ($id_user > 0) {
+            $where['user_id'] = $id_user;
+        } 
+        if ($blok != 0) {
+            $where['blok'] = $blok;
+            $nama_file .= $blok."_";
+        }
+        if ($kat != 0) {
+            $where['kategori_user'] = $kat;
+            $nama_file .= $kat;
+        }
+        if ($id_user == 0 && $blok == 0 && $kat == 0 ) {
+            $nama_file .= 'ALL';
+        }
+
+        
         $data = $datamodel->select('*')
-                ->where('user_level',0)
+                ->where($where)
                 ->orderBy('blok ASC', 'nomor ASC')
                 ->findAll();
         $pdf = new FPDF();
         $pdf->AliasNbPages();
         $pdf->SetAutoPageBreak(1,13);
         $pdf->SetTitle("Export Data Warga PDF");
-        $pdf->AddPage('L','A4');
-        $pdf->SetFont('arial','B',12);
+        $pdf->AddPage('P','A4');
+        $pdf->SetFont('arial','B',14);
 
-        $pdf->Cell(275,7,'Rekap Data Warga Perumahan Griya Sejahtera 2',0,1,'C');
-        $pdf->Cell(275,7,'Tahun 2023',0,1,'C');
-        $pdf->Ln(2);
+        $tahunNow = date('Y');
+        $pdf->Cell(190,7,'Data Warga Perumahan Griya Sejahtera 2',0,1,'C');
+        $pdf->Cell(190,7,'Dan Kavlingan Tahun '.$tahunNow,0,1,'C');
+        $pdf->Ln(4);
         $pdf->SetFont('arial','B',10);
         $pdf->Cell(15,8,'No.',1,0,'C');
-        $pdf->Cell(55,8,'Nomor KK',1,0,'L');
-        $pdf->Cell(70,8,'Nama Lengkap',1,0,'L');
-        $pdf->Cell(25,8,'Jenis Kelamin',1,0,'C');
+        $pdf->Cell(40,8,'Nama Lengkap',1,0,'L');
+        $pdf->Cell(30,8,'Nomor KK',1,0,'L');
+        $pdf->Cell(15,8,'JK',1,0,'C');
         $pdf->Cell(30,8,'Kategori',1,0,'C');
-        $pdf->Cell(80,8,'Alamat',1,0,'L');
+        $pdf->Cell(60,8,'Alamat',1,0,'L');
         $pdf->Ln();
         $pdf->SetFont('arial','',10);
         $no = 0;
         $kat = "Rumah Sendiri";
         foreach($data as $row){
+            $blok = '';
+            $nomor = '';
+            if (!empty($row['blok'])) {
+                $blok = ' Blok '. $row['blok'];
+            }
+
+            if (!empty($row['nomor'])) {
+                $nomor = ' No. '. $row['nomor'];
+            }
+
             $no++;
             if ($row['kategori_user'] == 'KONTRAK') {
                 $kat = 'Kontrak';
             }
-            $pdf->Cell(15,6,$no,'LRT',0,'C');
-            $pdf->Cell(55,6,$row['no_kk'],'LRT',0,'L');
-            $pdf->Cell(70,6,$row['user_firstname']." ".$row['user_lastname'],'LRT',0,'L');
-            $pdf->Cell(25,6,$row['user_gender'],'LRT',0,'C');
-            $pdf->Cell(30,6,$kat,'LRT',0,'C');
-            $pdf->Cell(80,6,$row['alamat']." Blok ".$row['blok']." No." .$row['nomor'] ,'LRT',1,'L');
+            $pdf->Cell(15,6,$no,'LRTB',0,'C');
+            $pdf->Cell(40,6,$row['user_firstname']." ".$row['user_lastname'],'LRTB',0,'L');
+            $pdf->Cell(30,6,$row['no_kk'],'LRTB',0,'L');
+            $pdf->Cell(15,6,$row['user_gender'],'LRTB',0,'C');
+            $pdf->Cell(30,6,$kat,'LRTB',0,'C');
+            $pdf->Cell(60,6,$row['alamat'].$blok.$nomor,'LRTB',1,'L');
         }
-        $pdf->Cell(275,10,'','T',1);
-
+        $pdf->Ln(8);
+        $dataNow = date('d-m-Y');
         $pdf->SetFont('arial','B',10);
-        $pdf->Cell(200,6,'',0);
-        $pdf->Cell(50,10,'Lahat, 22 September 2023','',1);
-        $pdf->Cell(200,3,'',0);
+        $pdf->Cell(130,6,'',0);
+        $pdf->Cell(50,10,'Lahat, '. $dataNow,'',1);
+        $pdf->Cell(130,3,'',0);
         $pdf->Cell(50,3,'Mengetahui','',1);
-        $pdf->Cell(200,6,'',0);
+        $pdf->Cell(130,6,'',0);
         $pdf->Cell(50,8,'Ketua Lingkungan','',1);
-        $pdf->Cell(200,40,'',0);
-        $pdf->Cell(50,40,'Nama Ketua Lingkungan','',1);
+        $pdf->Cell(130,40,'',0);
+        $pdf->Cell(50,40,'SUKMAN','',1);
         $this->response->setHeader('Content-Type', 'application/pdf');
-        $pdf->Output('D','rekap_warga.pdf');
+        $pdf->Output('D',$nama_file.'.pdf');
 
     }
 
-    public function getWargaFillter($kat, $blok){
+    public function getWargaFillter($kat, $blok, $u_id=0){
         $datamodel = new LoginModel();
-        
-        if (!$kat == 0 && !$blok == 0) {
-            $data = $datamodel->select('*')
-                ->where('user_level',0)
-                ->where('kategori_user',$kat)
-                ->where('blok',$blok)
-                ->orderBy('blok ASC', 'nomor ASC')
-                ->findAll();
-        } elseif (!$kat == 0 && $blok == 0) {
-            $data = $datamodel->select('*')
-                ->where('user_level',0)
-                ->where('kategori_user',$kat)
-                ->orderBy('blok ASC', 'nomor ASC')
-                ->findAll();
-        } elseif ($kat == 0 && !$blok == 0) {
-            $data = $datamodel->select('*')
-                ->where('user_level',0)
-                ->where('blok',$blok)
-                ->orderBy('blok ASC', 'nomor ASC')
-                ->findAll();
+        $data = [];
+        if ($u_id == 0) {
+            if (!$kat == 0 && !$blok == 0) {
+                $data = $datamodel->select('*')
+                    ->where('user_level',0)
+                    ->where('kategori_user',$kat)
+                    ->where('blok',$blok)
+                    ->orderBy('blok ASC', 'nomor ASC')
+                    ->findAll();
+            } elseif (!$kat == 0 && $blok == 0) {
+                $data = $datamodel->select('*')
+                    ->where('user_level',0)
+                    ->where('kategori_user',$kat)
+                    ->orderBy('blok ASC', 'nomor ASC')
+                    ->findAll();
+            } elseif ($kat == 0 && !$blok == 0) {
+                $data = $datamodel->select('*')
+                    ->where('user_level',0)
+                    ->where('blok',$blok)
+                    ->orderBy('blok ASC', 'nomor ASC')
+                    ->findAll();
+            } else {
+                $data = $datamodel->select('*')
+                    ->where('user_level',0)
+                    ->orderBy('blok ASC', 'nomor ASC')
+                    ->findAll();
+            }
         } else {
             $data = $datamodel->select('*')
-                ->where('user_level',0)
-                ->orderBy('blok ASC', 'nomor ASC')
-                ->findAll();
+                    ->where('user_id',$u_id)
+                    ->findAll();
         }
+        
+
+
+
 
         $output = [
             'data' => $data,

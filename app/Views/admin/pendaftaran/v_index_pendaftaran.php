@@ -39,8 +39,8 @@
                             <tr>
                                 <th width="20px">#</th>
                                 <th width="26px">No</th>
-                                <th width="1000px">Nama Kegiatan<br><small class="text-muted">Alamat (Blok dan nomor)</small></th>
-                                <th width="1000px">Keterangan</th>
+                                <th width="1000px">Nama Warga<br><small class="text-muted">Alamat (Blok dan nomor)</small></th>
+                                <th width="1000px">Kegiatan<br><small class="text-muted">Semua Kegiatan yang Diikuti</small></th>
                                 <th width="400px">Aksi<br><small class="text-muted">(Daftarkan Anggota)</small></th>
                             </tr>
                         </thead>
@@ -67,14 +67,14 @@
                         <input type="hidden" value="" name="x_id_user_kegiatan" id="x_id_user_kegiatan"/>
                         <div class="form-body">                            
                             <div class="form-group form-group-sm row">
-                                <label class="col-sm-12 col-form-label"><h4><div id="nama">Budi Matondang NO. KK [1234567817651]</div></h4></label>
+                                <label class="col-sm-12 col-form-label"><h4><div id="nama_modal">-</div></h4></label>
                             </div>
 
                             <div style="margin-top:-32px;" class="form-group form-group-sm row">
-                                <label  class="col-sm-12 col-form-label text-muted"><b><div id="alamat">Griya Sejahtera 2 Blok G No 10</div></b></label>
+                                <label  class="col-sm-12 col-form-label text-muted"><b><div id="alamat_modal">-</div></b></label>
                             </div>
 
-                            <div style="margin-top:-20px;" class="form-group form-group-sm row">
+                            <div style="margin-top:-10px;" class="form-group form-group-sm row">
                                 <div class="col-sm-12 table-responsive" id="daftar_kegiatan_modal">
                                     <table class='table table-sm border-less'>
                                         <thead class="bg-light">
@@ -85,11 +85,6 @@
                                             </tr>
                                         </thead>
                                         <tbody id="tbl-kegiatan-modal">
-                                            <tr>
-                                                <td>1.</td>
-                                                <td>HSAJKDHA ASDKJASKDSAD SASAD</td>
-                                                <td>Hapus</td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -132,7 +127,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form id="form-delete" class="form-horizontal" method="POST">
-                    <input type="hidden" value="" name="x_id_hapus" />
+                    <input type="hidden" value="" name="x_id_user_kegiatan_delete" />
                     <div class="modal-header bg-danger">
                         <h5 class="modal-title" id="modal-title-hapus"><i class="cil-trash"></i> Hapus Data </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -297,8 +292,9 @@
     });
 
     $('#delete-confirm-button').click(function(){
+        var user_id = $('#x_id_user_kegiatan').val();
         $.ajax({
-            url : urlserver+"hapus",
+            url : urlserver+"hapususerkegiatan",
             type: "POST",
             data: $('#form-delete').serialize(),
             dataType: "JSON",
@@ -317,7 +313,9 @@
                         icon: "success",
                     });
                 }
-                $('#confirmDelete').modal('hide');
+
+                insertTableKegiatan(user_id);
+                $('#confirmDelete').modal('hide');                
                 $('#tbl-jadwal').DataTable().ajax.reload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -356,7 +354,6 @@
             'processing': 'Sedang memuat data, mohon tunggu sebentar...'
         },
         fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-            table.cell( nRow, 1 ).data(iDisplayIndex+1);
         },
 
         columnDefs :[
@@ -401,11 +398,20 @@
 
     });
 
+    table.on( 'draw draw.dt order.dt search.dt', function () {
+        var PageInfo = $('#tbl-jadwal').DataTable().page.info();
+        table.column(1, { page: 'current' }).nodes().each( function (cell, i) {
+                cell.innerHTML = i + 1 + PageInfo.start+".";
+        });
+
+    });
+
 });
 
 function detailWarga(user_id) {
     insertTableKegiatan(user_id);
     getKegiatan(0);
+    getDataWarga(user_id);
     save_method = 'add';
     $('[name="x_id_user_kegiatan"]').val(user_id);
     $('#modal-title').text('Detail Kegiatan Warga');
@@ -428,7 +434,7 @@ function getKegiatan(id_kegiatan) {
         dataType: "JSON",
         success: function(data) {
             if (id_kegiatan > 0) {
-                $('#biaya').val(data.data[0]['biaya']);
+                $('#biaya').val(data.data[0]['pendaftaran']);
             } else {
                 var s = '';
                 s += '<option value="0">Pilih kegiatan</option>';
@@ -461,9 +467,9 @@ function insertTableKegiatan(id_user) {
                 for (var i = 0; i < data.data.length; i++) {
                     no++;
                     s += '<tr>';
-                    s += '<td>'+ no+'</td>';
+                    s += '<td><b>'+ no+'.</b></td>';
                     s += '<td>'+ data.data[i]['nama_kegiatan']+'</td>';
-                    s += '<td><a onclick="tblHapus('+ data.data[i]['id']+')" href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="feather icon-trash-2"></i></a></td>';
+                    s += '<td><a onclick="tblHapus('+ data.data[i]['id']+')" href="javascript:void(0);" class=""><i class="feather icon-trash-2 text-danger"></i></a></td>';
                     s += '</tr>';
                 }
                 
@@ -481,6 +487,45 @@ function insertTableKegiatan(id_user) {
     });
 }
 
+function getDataWarga(user_id) {
+    $.ajax({
+        url : urlserver+"getdatawarga/"+user_id,
+        type: "GET",
+        data:'',
+        dataType: "JSON",
+        success: function(data) {
+            if (data.data.length > 0) {
+                var no_kk = '';
+                var blok = '';
+                var nomor = '';
+                if (data.data[0]['no_kk'] != '') {
+                    no_kk = " ["+data.data[0]['no_kk']+"]";
+                }
+                if (data.data[0]['blok'] != '') {
+                    blok = " Blok "+data.data[0]['blok'];
+                }
+                if (data.data[0]['nomor'] != '') {
+                    nomor = " Nomor " + data.data[0]['nomor'];
+                }
+                $('#nama_modal').html(data.data[0]['user_firstname'] + " " +data.data[0]['user_lastname']);
+                $('#alamat_modal').html(data.data[0]['alamat'] + blok + nomor);
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown){
+            swal({  title: "Error!",
+                    text: "Oupppssss.... Error saat mencoba menghubungi server!",
+                    icon: "error",
+                });
+        }
+    });
+}
+
+function tblHapus(user_id) {
+    $('[name="x_id_user_kegiatan_delete"]').val(user_id);
+    $('#modal-title').html('Hapus Kegiatan');
+    $('#confirmDelete').modal('show');
+}
 </script>
 
 

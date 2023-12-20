@@ -19,7 +19,7 @@ $routes->post('/admin/master/penduduk/simpan', 'Penduduk::simpan', ['filter' => 
 $routes->post('/admin/master/penduduk/detail/(:num).html', 'Penduduk::detail/$1', ['filter' => 'authGuard']);
 $routes->post('/admin/master/penduduk/hapus', 'Penduduk::hapus', ['filter' => 'authGuard']);
 $routes->post('/admin/master/penduduk/edit', 'Penduduk::edit', ['filter' => 'authGuard']);
-$routes->get('/admin/master/penduduk/cetak/pdf', 'Penduduk::cetakWargaPDF', ['filter' => 'authGuard']);
+$routes->get('/admin/master/penduduk/cetak/pdf/(:segment)/(:segment)/(:segment)/', 'Penduduk::cetakWargaPDF/$1/$2/$3', ['filter' => 'authGuard']);
 $routes->get('/admin/master/penduduk/cetak/excel', 'Penduduk::cetakWargaPDF', ['filter' => 'authGuard']);
 $routes->get('/admin/master/penduduk/index_filter/(:segment)/(:segment)', 'Penduduk::getWargaFillter/$1/$2', ['filter' => 'authGuard']);
 
@@ -44,3 +44,5 @@ $routes->get('/admin/master/anggota/index_ajax', 'Pendaftaran::getDataAjax', ['f
 $routes->get('/admin/master/anggota/getkegiatan/(:num)', 'Kegiatan::getAllKegiatanAjax/$1', ['filter' => 'authGuard']);
 $routes->post('/admin/master/anggota/simpankegiatan', 'Pendaftaran::simpan', ['filter' => 'authGuard']);
 $routes->get('/admin/master/anggota/getkegiatanuser/(:num)', 'Pendaftaran::getKegiatanAjax/$1', ['filter' => 'authGuard']);
+$routes->get('/admin/master/anggota/getdatawarga/(:num)', 'Penduduk::getWargaFillter/0/0/$1', ['filter' => 'authGuard']);
+$routes->post('/admin/master/anggota/hapususerkegiatan', 'Pendaftaran::hapus', ['filter' => 'authGuard']);
