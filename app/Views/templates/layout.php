@@ -116,6 +116,7 @@
     </div>
 </div>
 
+
 <script type="text/javascript" src="<?= base_url('js/popper.min.js'); ?>"></script>
 <script type="text/javascript" src="<?= base_url('js/bootstrap.min.js'); ?>"></script>
 <script type="text/javascript" src="<?= base_url('js/jquery.slimscroll.js'); ?>"></script>
@@ -141,5 +142,6 @@
 <script type="text/javascript" src="<?= base_url('js/load.js'); ?>"></script>
 
 <?= $this->renderSection('scripts'); ?>
+
 </body>
 </html>

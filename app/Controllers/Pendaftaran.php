@@ -26,15 +26,19 @@ class Pendaftaran extends BaseController
         $arr_user = $sql_user->getResultArray();
 
         $data = [];
+        $thnNow = date('Y');
         foreach ($arr_user as $row) {
             $sql_kegiatan   = 'SELECT * FROM tbl_user_kegiatan 
-                            INNER JOIN tbl_kegiatan ON tbl_kegiatan.id_kegiatan = tbl_user_kegiatan.id_kegiatan_tr
-                            WHERE tbl_user_kegiatan.id_user_kegiatan=:id:';
+                            INNER JOIN tbl_kegiatan ON tbl_kegiatan.id_kategori = tbl_user_kegiatan.id_kegiatan_tr
+                            WHERE tbl_user_kegiatan.id_user_kegiatan=:id: AND tbl_kegiatan.tahun=:tahun:';
             $query = $db->query($sql_kegiatan, [
-                'id'     => $row['user_id']
+                'id'     => $row['user_id'],
+                'tahun' => $thnNow
             ]);
+
             $arr_kegiatan = $query->getResultArray();
             $kegiatan = '';
+
             foreach ($arr_kegiatan as $key => $value) {
                 $kegiatan .= " <span class='badge badge-primary'>".$value['nama_kegiatan'] . "</span> ";
             }
@@ -62,24 +66,6 @@ class Pendaftaran extends BaseController
             "data" => $data
           );
         echo json_encode($output, JSON_PRETTY_PRINT);
-
-        // helper(['config_helper']);
-
-        // if (session()->get('user_level') > 0 && session()->get('isLoggedIn')) {
-        //     $datamodel = new LoginModel();
-        //     $builder = $datamodel->select('user_id,user_name,user_email,user_firstname,user_lastname,blok,nomor,no_kk,kategori_user')
-        //             ->where('user_level',0)
-        //             ->orderBy('blok ASC', 'nomor ASC');
-            
-        //             print_r($builder);die;
-            
-        //     return DataTable::of($builder)->add(null, function($row){
-        //         return '<div class="btn-group btn-group-sm text-center" role="group">
-        //         <a onClick="tblDetail('.$row->user_id.')" href="javascript:void(0);" class="btn btn-sm btn-warning"><i class="feather icon-edit"></i></a>
-        //         <a onClick="tblHapus('.$row->user_id.')" href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="feather icon-trash-2 close-card"></i></a></div>';
-        //     })->toJson();          
-
-        // }
     }
 
     public function simpan() {
@@ -122,8 +108,9 @@ class Pendaftaran extends BaseController
         if ($user_id > 0) {
             $data = $datamodel->select('*')
             ->where('id_user_kegiatan',$user_id)
-            ->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan = tbl_user_kegiatan.id_kegiatan_tr')
+            ->join('tbl_kegiatan', 'tbl_kegiatan.id_kategori = tbl_user_kegiatan.id_kegiatan_tr')
             ->orderBy('id ASC')
+            ->groupBy('tbl_kegiatan.id_kategori')
             ->findAll();
         }
 

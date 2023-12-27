@@ -36,17 +36,17 @@
 
                 <li class="pcoded-hasmenu">
                     <a href="javascript:void(0)">
-                        <span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
+                        <span class="pcoded-micon"><i class="feather icon-tag"></i></span>
                         <span class="pcoded-mtext">Transaksi</span>
                     </a>
                     <ul class="pcoded-submenu">
                         <li class="">
-                            <a href="#">
+                            <a href="<?= base_url('admin/master/transaksi-masuk.html');?>">
                                 <span class="pcoded-mtext">Pemasukan</span>
                             </a>
                         </li>
                         <li class="">
-                            <a href="#">
+                            <a href="<?= base_url('admin/master/transaksi-keluar.html');?>">
                                 <span class="pcoded-mtext">Pengeluaran</span>
                             </a>
                         </li>

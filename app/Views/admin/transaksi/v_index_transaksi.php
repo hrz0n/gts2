@@ -5,8 +5,8 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                <h5>Pendaftaran Data Kegiatan</h5>
-                <span class="mb-2">Tambah, edit, cari dan hapus data pendaftaran kegiatan</span>
+                <h5>Master Data Transaksi Masuk</h5>
+                <span class="mb-2">Tambah, edit, cari dan hapus data transaksi masuk</span>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="feather icon-maximize full-card"></i></li>
@@ -14,34 +14,61 @@
                         <li><i class="feather icon-trash-2 close-card"></i></li>
                     </ul>
                 </div>
+            </div>
 
-                <div class="d-flex flex-wrap justify-content-between">
-                    <div style="margin-left:-18px;" class="col-md-6 mb-1">
-                        <a id="refreshdata" href="javascript:void(0);" class="btn float-left ml-1 mb-1 btn-sm btn-pill btn btn-dark"><b><i class="feather icon-rotate-ccw"></i> Refresh</b></a>
-                        <a id="cetakdata" href="javascript:void(0);" class="btn btn-sm float-left ml-1 mb-1 btn-pill btn btn-success"><b><i class="feather icon-printer"></i> Cetak</b></a>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                            <div class="input-group-text bg-light">
-                                <span style="margin-top:-3px;" class="feather icon-search form-control-feedback"></span>
-                            </div>
-                            </div>
-                            <input placeholder='Cari data apapun disini...' type="text" class="btn-outline-2x form-control global_filter" id="global_filter">
-                        </div>
+            <div class="card-block">
+                <div style="margin-top:-12px;" class="form-group form-group-sm row">
+                    <label for="email" class="col-sm-3 col-form-label"><b>Nama Warga<span class="text-danger">*</span></b></label>
+                    <div class="col-sm-9">
+                        <select name="nama_warga" id="nama_warga" class="form-control select2">
+                            <option value="0">Pilih Nama Warga</option>
+                        </select>
                     </div>
                 </div>
-            </div>
-            <div class="card-block" style="margin-top:-30px;">
-                <div class="table-responsive">
+
+                <div style="margin-top:-12px;" class="form-group form-group-sm row">
+                    <label for="nama_kegiatan" class="col-sm-3 col-form-label"><b>Kegiatan<span class="text-danger">*</span></b></label>
+                    <div class="col-sm-9">
+                        <select name="nama_kegiatan" id="nama_kegiatan" class="form-control select2">
+                            <option value="0">Pilih Nama Kegiatan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-top:-12px;" class="form-group form-group-sm row">
+                    <label for="periode_thn" class="col-sm-3 col-form-label"><b>Tahun<span class="text-danger">*</span></b></label>
+                    <div class="col-sm-9">
+                        <select name="periode_thn" id="periode_thn" class="form-control select2">
+                        </select>
+                    </div>
+                </div>
+                <div style="margin-top:-12px;" class="form-group form-group-sm row">
+                    <label for="tmbl_tampilkan" class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-9">
+                        <div class="d-grid gap-2">
+                            <button
+                                type="button"
+                                name="tmbl_tampilkan"
+                                id="tmbl_tampilkan"
+                                class="btn btn-primary"><i class="feather icon-rotate-ccw"></i>
+                                Tampilkan Data
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>
+
+
+                <div id="detail-pembayaran" class="table-responsive d-none">
                     <table id="tbl-jadwal" class="table table-framed table-hover" style="width:100%">
                         <thead class="bg-light">
                             <tr>
-                                <th width="20px">#</th>
-                                <th width="26px">No</th>
-                                <th width="1000px">Nama Warga<br><small class="text-muted">Alamat (Blok dan nomor)</small></th>
-                                <th width="1000px">Kegiatan<br><small class="text-muted">Semua Kegiatan yang Diikuti</small></th>
-                                <th width="400px">Aksi<br><small class="text-muted">(Daftarkan Anggota)</small></th>
+                                <th width="16px">No</th>
+                                <th width="200px">Periode Bulan</th>
+                                <th></th>
+                                <th width="100px">Dibayar</th>
+                                <th width="200px">Keterangan</th>
+                                <th width="200px">Aksi</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -64,60 +91,39 @@
                 </div>
                 <div class="modal-body form">
                     <form id="form" class="form-horizontal" method="POST">
-                        <input type="hidden" value="" name="x_id_user_kegiatan" id="x_id_user_kegiatan"/>
+                        <input type="hidden" value="" name="x_id" />
                         <div class="form-body">                            
                             <div class="form-group form-group-sm row">
-                                <label class="col-sm-12 col-form-label"><h4><div id="nama_modal">-</div></h4></label>
+                                <label for="nama_depan" class="col-sm-12 col-form-label"><b>Nama Lengkap Warga</b><span class="text-danger">*</span></label>
                             </div>
 
-                            <div style="margin-top:-32px;" class="form-group form-group-sm row">
-                                <label  class="col-sm-12 col-form-label text-muted"><b><div id="alamat_modal">-</div></b></label>
+                            <div style="margin-top:-12px;" class="form-group form-group-sm row">
+                                <label for="nama_belakang" class="col-sm-12 col-form-label"><b>Nama Kegiatan Tahun 2023</b></label>
                             </div>
 
-                            <div style="margin-top:-10px;" class="form-group form-group-sm row">
-                                <div class="col-sm-12 table-responsive" id="daftar_kegiatan_modal">
-                                    <table class='table table-sm border-less'>
-                                        <thead class="bg-light">
-                                            <tr>
-                                                <th style="width:20px;">#</th>
-                                                <th>Kegiatan</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbl-kegiatan-modal">
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <hr>
 
-                            <div  class="form-group form-group-sm row">
-                                <label for="kegiatan" class="col-sm-3 col-form-label"><b>Kegiatan<span class="text-danger">*</span></b></label>
+                            <div style="margin-top:-12px;" class="form-group form-group-sm row">
+                                <label for="jmlh_bayar" class="col-sm-3 col-form-label"><b>Jumlah Bayar</b></label>
                                 <div class="col-sm-9">
-                                    <select id="kegiatan" name="kegiatan" class="form-control">
-                                    </select>
+                                    <input placeholder="Jumlah yg akan di bayar, ex : 5000" id="jmlh_bayar" class="form-control" type="text" name="jmlh_bayar" value="">
                                 </div>
                             </div>
 
                             <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="biaya" class="col-sm-3 col-form-label"><b>Biaya Pendaftaran<span class="text-danger">*</span></b></label>
-                                <div class="col-sm-9">
-                                    <input placeholder="Biaya, Ex : 100000" id="biaya" class="form-control" type="text" name="biaya" value="0">
+                                <label for="tgl_pembayaran" class="col-sm-3 col-form-label"><b>Tanggal Pembayaran</b></label>
+                                <div class="col-sm-4">
+                                    <input placeholder="Tanggal pembayaran" id="tgl_pembayaran" class="form-control" type="date" name="tgl_pembayaran" value="<?= date('Y-m-d') ?>">
                                 </div>
                             </div>
 
-                            <div style="margin-top:-12px;" class="form-group form-group-sm row">
-                                <label for="" class="col-sm-3 col-form-label"></label>
-                                <div class="col-sm-9">
-                                <button id="simpanData" name="simpanData" type="button" class="btn btn-primary btn-pill"><b><i class="feather icon-navigation"></i> Tambah Kegiatan</b></button>
-                                </div>
-                            </div>
+                            
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer bg-light">
-                <p class="float-left">Semua tanda (<span class="text-danger">*</span>) wajib diisi, isi <code>0</code> jika biaya gratis!</p>
-                    <button type="button" class="btn-pill btn btn-warning" data-dismiss="modal"><i class="feather icon-rotate-ccw"></i> Selesai</button>
+                <p class="float-left">Semua tanda (<span class="text-danger">*</span>) wajib diisi!</p>
+                    <button type="button" class="btn-pill btn btn-warning" data-dismiss="modal"><i class="feather icon-rotate-ccw"></i> Batal</button>
+                    <button id="simpanData" name="simpanData" type="button" class="btn btn-primary btn-pill"><b><i class="feather icon-navigation"></i> Simpan</b></button>
                 </div>
             </div>
         </div>
@@ -127,7 +133,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form id="form-delete" class="form-horizontal" method="POST">
-                    <input type="hidden" value="" name="x_id_user_kegiatan_delete" />
+                    <input type="hidden" value="" name="x_id_hapus" />
                     <div class="modal-header bg-danger">
                         <h5 class="modal-title" id="modal-title-hapus"><i class="cil-trash"></i> Hapus Data </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -145,7 +151,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="modal fade" id="confirmCetak" tabindex="-1" role="dialog" aria-labelledby="modal-title-hapus" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -196,7 +201,7 @@
                     </div>
                     <div class="modal-footer bg-light">
                         <button type="button" class="float-left ml-1 btn-pill btn btn-secondary" data-dismiss="modal"><i class="feather icon-rotate-ccw"></i> Batal</button>
-                        <a target="balnk" href="<?= base_url('admin/master/penduduk/cetak/pdf');?>" class="float-left ml-1 btn-pill btn btn-success " id="cetak-pdf-confirm-button"><i class="feather icon-printer"></i> Ekspor PDF</a>
+                        <a onClick="cetakPDF()" href="javascript:void(0);" class="float-left ml-1 btn-pill btn btn-success " id="cetak-pdf-confirm-button"><i class="feather icon-printer"></i> Ekspor PDF</a>
                     </div>
                 </form>
             </div>
@@ -211,15 +216,34 @@
 <script type="text/javascript">
     var table;
     var save_method;
-    var id_kegiatan=0;
-    var urlserver = "<?= base_url('admin/master/anggota/');?>";
+    var user_id=0;
+    var id_kat_kegiatan=0;
+    var thn =0;
+
+    var urlserver = "<?= base_url('admin/master/transaksi-masuk/');?>";
 
   $(document).ready(function() {
 
-    $('#kegiatan').on('change',function() {
-        id_kegiatan = $(this).val();
-        $("#biaya").val(0);
-        getKegiatan(id_kegiatan);
+    // getPenduduk(idkat, idblok);
+    getPenduduk();
+    getKegiatan();
+    tahun();
+    // loadTagihan(86, 2, 2023)
+
+    $('#tmbl_tampilkan').click(function(){
+        user_id = $('#nama_warga').val();
+        id_kat_kegiatan = $('#nama_kegiatan').val();
+        thn = $('#periode_thn').val();
+
+        if (user_id == 0 || id_kat_kegiatan == 0) {
+            swal({  title: "Error!",
+                    text: "Oupppssss.... Silahkan pilih nama penduduk dan kegiatan terlebih dahulu!",
+                    icon: "error",
+                });
+        } else {
+            loadTagihan(user_id, id_kat_kegiatan, thn);
+            $('#detail-pembayaran').removeClass('d-none');
+        }
     });
 
     $('#refreshdata').click(function(){
@@ -233,13 +257,22 @@
         $('#confirmCetak').modal('show');
     });
 
+
+    $('#tbl-jadwal tbody').on( 'click', '.btnBayarTagihan', function () {
+  		var data = table.row( $(this).parents('tr') ).data();
+        var afterText = getFromBetween.get(data[1],"<b>","</b>");
+        $('#modal-title').text('Tambah data warga'+ afterText);
+        $('#modal_form').modal('show');
+    });
+
+
     $('#modal_form').on('hidden.bs.modal', function () {
         $('#modal_form').trigger('reset');
         $('#form')[0].reset();
     });
 
 	$('#modal_form').on('shown.bs.modal', function () {
-        $('#kegiatan').focus();
+        $('#nama_depan').focus();
 	});
 
     $('input.global_filter').on( 'keyup click', function () {
@@ -248,9 +281,8 @@
 
     $('#simpanData').click(function(){
         var url;
-        var user_id = $('#x_id_user_kegiatan').val();
         if(save_method == 'add') {
-            url = urlserver+"simpankegiatan";
+            url = urlserver+"simpan";
         } else {
             url = urlserver+"edit";
         }
@@ -270,12 +302,12 @@
                 } else {
                     swal({
                         title: "Pakam kak!",
-                        text: data.message,
+                        text: "Data berhasil disimpan!",
                         icon: "success",
                     });
+                    $('#modal_form').modal('hide');
                 }
-                // $('#modal_form').modal('hide');
-                insertTableKegiatan(user_id);
+                
                 $('#tbl-jadwal').DataTable().ajax.reload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -292,9 +324,8 @@
     });
 
     $('#delete-confirm-button').click(function(){
-        var user_id = $('#x_id_user_kegiatan').val();
         $.ajax({
-            url : urlserver+"hapususerkegiatan",
+            url : urlserver+"hapus",
             type: "POST",
             data: $('#form-delete').serialize(),
             dataType: "JSON",
@@ -313,9 +344,7 @@
                         icon: "success",
                     });
                 }
-
-                insertTableKegiatan(user_id);
-                $('#confirmDelete').modal('hide');                
+                $('#confirmDelete').modal('hide');
                 $('#tbl-jadwal').DataTable().ajax.reload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -331,6 +360,10 @@
 
     });
 
+
+});
+
+function loadTagihan(user_id, id_kat_kegiatan, thn) {
     table = $('#tbl-jadwal').DataTable({
         processing: true,
         // serverSide: true,
@@ -341,12 +374,7 @@
         dom: 'tip',
         ordering:true,
         searching: true,
-        ajax:{
-            'url':'<?= base_url('admin/master/anggota/index_ajax');?>',
-            'type':"GET",
-            'dataType': "JSON",
-            'data':''
-        },
+        ajax: urlserver+"getTagihan/"+user_id+"/"+id_kat_kegiatan+"/"+thn,
         pageLength: 40,
         language: {
             'search': "Filter Data",
@@ -354,32 +382,34 @@
             'processing': 'Sedang memuat data, mohon tunggu sebentar...'
         },
         fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+            table.cell( nRow, 1 ).data("<b>"+aData[1].toUpperCase()+"</b>"+'<br>'+aData[2]);
         },
 
         columnDefs :[
         {
-            'targets': [0],
-            "orderable":false,
-            'searchable': false,
-            'className': 'text-center align-middle',
-            'checkboxes':
-            {
-                'selectRow': false
-            }
-        },
-        {
             "targets": 1,
-            'className': 'text-center align-middle',
+            'className': 'text-left align-middle',
             "orderable":true,
             'searchable': true,
         },
         {
             "targets": 2,
-            'className': 'align-middle',
+            "visible" : false
+        },
+        {
+            "targets": 3,
+            'className': 'text-left align-middle',
             "orderable":true,
             'searchable': true,
         },
-       
+
+        {
+            "targets": 4,
+            'className': 'text-center align-middle',
+            "orderable":true,
+            'searchable': true,
+        },
+
 
         {
             "targets": -1,
@@ -400,22 +430,11 @@
 
     table.on( 'draw draw.dt order.dt search.dt', function () {
         var PageInfo = $('#tbl-jadwal').DataTable().page.info();
-        table.column(1, { page: 'current' }).nodes().each( function (cell, i) {
+        table.column(0, { page: 'current' }).nodes().each( function (cell, i) {
                 cell.innerHTML = i + 1 + PageInfo.start+".";
         });
 
     });
-
-});
-
-function detailWarga(user_id) {
-    insertTableKegiatan(user_id);
-    getKegiatan(0);
-    getDataWarga(user_id);
-    save_method = 'add';
-    $('[name="x_id_user_kegiatan"]').val(user_id);
-    $('#modal-title').text('Detail Kegiatan Warga');
-    $('#modal_form').modal('show');
 }
 
 function filterGlobal () {
@@ -426,24 +445,31 @@ function filterGlobal () {
     ).draw();
 }
 
-function getKegiatan(id_kegiatan) {
-    $.ajax({
-        url : urlserver+"getkegiatan/"+id_kegiatan,
-        type: "GET",
-        data:'',
+function tblEdit(user_id) {
+    save_method = 'update';
+    var idgroup = [];
+    var r_data = table.row($(this).parents('tr')).data();
+    $('#form')[0].reset();
+      $.ajax({
+        url : urlserver+"detail/"+user_id,
+        type: "POST",
+        data:'x_id='+r_data[0],
         dataType: "JSON",
         success: function(data) {
-            if (id_kegiatan > 0) {
-                $('#biaya').val(data.data[0]['pendaftaran']);
-            } else {
-                var s = '';
-                s += '<option value="0">Pilih kegiatan</option>';
-                for (var i = 0; i < data.data.length; i++) {
-                s += '<option value="' + data.data[i]['id_kategori'] + '">'+ data.data[i]['nama_kegiatan'] + ' ('+data.data[i]['tipe_bayar'] +' - '+data.data[i]['metode_bayar']+' )' +'</option>';
-                }
-                $("#kegiatan").html(s);
-            }
+          $('[name="x_id"]').val(data.x_id);
+          $('[name="x_name"]').val(data.x_name);
+          $('[name="x_password"]').val('flyexam');
+          $('[name="x_email"]').val(data.x_email);
+          $('[name="x_f_name"]').val(data.x_f_name);
+          $('[name="x_l_name"]').val(data.x_l_name);
+          $('[name="x_level"]').val(data.x_level);
+          $('[name="x_tmpt_lahir"]').val(data.x_birthplace);
+          $('[name="x_tgllahir"]').val(data.x_birthdate);
+          $('#x_level').val(data.x_level).trigger('change');
+          $('input[type=radio][name="jk"][value="'+data.x_jk+'"]').prop('checked', true);
 
+          $('#modal-title').text('Update data warga');
+          $('#modal_form').modal('show');
         },
         error: function (jqXHR, textStatus, errorThrown){
             swal({  title: "Error!",
@@ -452,31 +478,68 @@ function getKegiatan(id_kegiatan) {
                 });
         }
     });
+
+
 }
 
-function insertTableKegiatan(id_user) {
+function tblDetail(user_id) {
+    save_method = 'update';
+    $('#form')[0].reset();
+      $.ajax({
+        url : urlserver+"detail/"+user_id+".html",
+        type: "POST",
+        data:'',
+        dataType: "JSON",
+        success: function(data) {
+            $('[name="x_id"]').val(user_id);
+            $('[name="nama_depan"]').val(data.data['user_firstname']);
+            $('[name="nama_belakang"]').val(data.data['user_lastname']);
+            $('input[type=radio][name="jk"][value="'+data.data['user_gender']+'"]').prop('checked', true);
+            $('[name="email"]').val(data.data['user_email']);
+            $('[name="tmpt_lahir"]').val(data.data['user_birthplace']);
+            $('[name="tgl_lahir"]').val(data.data['user_birthdate']);
+            $('[name="no_hp"]').val(data.data['no_hp']);
+            $('[name="alamat"]').val(data.data['alamat']);
+            $('[name="blok"]').val(data.data['blok']);
+            $('[name="nomor"]').val(data.data['nomor']);
+            $('[name="nomor_kk"]').val(data.data['no_kk']);
+            $('#jmlh_jiwa').val(data.data['jmlh_jiwa']).trigger('change');
+            $('#status_rumah').val(data.data['kategori_user']).trigger('change');
+            $('#status_penduduk').val(data.data['user_status']).trigger('change');
+            $('#modal-title').html('Update data warga <b>'+ data.data['user_firstname']+' '+data.data['user_lastname']+'</b>');
+            $('#modal_form').modal('show');
+        },
+        error: function (jqXHR, textStatus, errorThrown){
+            swal({  title: "Error!",
+                    text: "Oupppssss.... Error saat mencoba menghubungi server!",
+                    icon: "error",
+                });
+        }
+    });
+
+
+}
+
+function tblHapus(user_id) {
+    $('[name="x_id_hapus"]').val(user_id);
+    $('#modal-title-hapus').text('Hapus data warga');
+    $('#confirmDelete').modal('show');
+}
+
+function getPenduduk() {
     $.ajax({
-        url : urlserver+"getkegiatanuser/"+id_user,
+        url : "<?= base_url('admin/master/penduduk/index_filter/0/0');?>",
         type: "GET",
         data:'',
         dataType: "JSON",
         success: function(data) {
             var s = '';
-            if (data.data.length > 0) {
-                var no = 0;
-                for (var i = 0; i < data.data.length; i++) {
-                    no++;
-                    s += '<tr>';
-                    s += '<td><b>'+ no+'.</b></td>';
-                    s += '<td>'+ data.data[i]['nama_kegiatan']+'</td>';
-                    s += '<td><a onclick="tblHapus('+ data.data[i]['id']+')" href="javascript:void(0);" class=""><i class="feather icon-trash-2 text-danger"></i></a></td>';
-                    s += '</tr>';
-                }
-                
-            } else {
-                s = '<tr class="text-muted text-center"><td colspan="3">Belum terdaftar dalam kegiatan apapun</td></tr>'
+            s += '<option value="0">Pilih Warga</option>';
+            for (var i = 0; i < data.data.length; i++) {
+            s += '<option value="' + data.data[i]['user_id'] + '">'+ data.data[i]['user_firstname'] + ' ' + data.data[i]['user_lastname']+ ' ('+data.data[i]['blok'] +''+data.data[i]['nomor']+' )' +'</option>';
             }
-            $("#tbl-kegiatan-modal").html(s);
+            $("#nama_warga").html(s);
+
         },
         error: function (jqXHR, textStatus, errorThrown){
             swal({  title: "Error!",
@@ -487,30 +550,19 @@ function insertTableKegiatan(id_user) {
     });
 }
 
-function getDataWarga(user_id) {
+function getKegiatan() {
     $.ajax({
-        url : urlserver+"getdatawarga/"+user_id,
+        url : "<?= base_url('admin/master/anggota/getkegiatan/0');?>",
         type: "GET",
         data:'',
         dataType: "JSON",
         success: function(data) {
-            if (data.data.length > 0) {
-                var no_kk = '';
-                var blok = '';
-                var nomor = '';
-                if (data.data[0]['no_kk'] != '') {
-                    no_kk = " ["+data.data[0]['no_kk']+"]";
-                }
-                if (data.data[0]['blok'] != '') {
-                    blok = " Blok "+data.data[0]['blok'];
-                }
-                if (data.data[0]['nomor'] != '') {
-                    nomor = " Nomor " + data.data[0]['nomor'];
-                }
-                $('#nama_modal').html(data.data[0]['user_firstname'] + " " +data.data[0]['user_lastname']);
-                $('#alamat_modal').html(data.data[0]['alamat'] + blok + nomor);
+            var s = '';
+            s += '<option value="0">Pilih kegiatan</option>';
+            for (var i = 0; i < data.data.length; i++) {
+            s += '<option value="' + data.data[i]['id_kategori'] + '">'+ data.data[i]['nama_kegiatan'] + ' ('+data.data[i]['tipe_bayar'] +' - '+data.data[i]['metode_bayar']+' )' +'</option>';
             }
-
+            $("#nama_kegiatan").html(s);
         },
         error: function (jqXHR, textStatus, errorThrown){
             swal({  title: "Error!",
@@ -521,11 +573,82 @@ function getDataWarga(user_id) {
     });
 }
 
-function tblHapus(user_id) {
-    $('[name="x_id_user_kegiatan_delete"]').val(user_id);
-    $('#modal-title').html('Hapus Kegiatan');
-    $('#confirmDelete').modal('show');
+function tahun() {
+    var currentTime = new Date();
+    var year = currentTime.getFullYear();
+    var s = '';
+    var y = 4;
+    var z = 0;
+
+    var selected = '';
+    for (let index = 0; index < 7; index++) {
+        y--;
+        if (y <= 0 ) {
+            var strTahun = (year + z);
+            if (strTahun == year) {
+                selected = ' selected="selected" ';
+            } else {
+                selected = '';
+            }
+            s += '<option '+selected+' value="'+strTahun+'">'+strTahun+'</option>';
+            z++;
+        } else {
+            var strTahun = (year - y);
+            s += '<option '+selected+' value="'+strTahun+'">'+strTahun+'</option>';
+        }
+    }
+    $("#periode_thn").html(s);
 }
+
+function cetakPDF() {
+
+    var kat = $('#c_kat').val();
+    var blok = $('#c_blok').val();
+    var user_id = $('#c_warga').val();
+
+    window.location = urlserver+"cetak/pdf/"+kat+"/"+blok+"/"+user_id;
+}
+
+var getFromBetween = {
+  results:[],
+  string:"",
+  getFromBetween:function (sub1,sub2) {
+      if(this.string.indexOf(sub1) < 0 || this.string.indexOf(sub2) < 0) return false;
+      var SP = this.string.indexOf(sub1)+sub1.length;
+      var string1 = this.string.substr(0,SP);
+      var string2 = this.string.substr(SP);
+      var TP = string1.length + string2.indexOf(sub2);
+      return this.string.substring(SP,TP);
+  },
+  removeFromBetween:function (sub1,sub2) {
+      if(this.string.indexOf(sub1) < 0 || this.string.indexOf(sub2) < 0) return false;
+      var removal = sub1+this.getFromBetween(sub1,sub2)+sub2;
+      this.string = this.string.replace(removal,"");
+  },
+  getAllResults:function (sub1,sub2) {
+      // first check to see if we do have both substrings
+      if(this.string.indexOf(sub1) < 0 || this.string.indexOf(sub2) < 0) return;
+
+      // find one result
+      var result = this.getFromBetween(sub1,sub2);
+      // push it to the results array
+      this.results.push(result);
+      // remove the most recently found one from the string
+      this.removeFromBetween(sub1,sub2);
+
+      // if there's more substrings
+      if(this.string.indexOf(sub1) > -1 && this.string.indexOf(sub2) > -1) {
+          this.getAllResults(sub1,sub2);
+      }
+      else return;
+  },
+  get:function (string,sub1,sub2) {
+      this.results = [];
+      this.string = string;
+      this.getAllResults(sub1,sub2);
+      return this.results;
+  }
+};
 </script>
 
 

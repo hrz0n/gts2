@@ -46,3 +46,8 @@ $routes->post('/admin/master/anggota/simpankegiatan', 'Pendaftaran::simpan', ['f
 $routes->get('/admin/master/anggota/getkegiatanuser/(:num)', 'Pendaftaran::getKegiatanAjax/$1', ['filter' => 'authGuard']);
 $routes->get('/admin/master/anggota/getdatawarga/(:num)', 'Penduduk::getWargaFillter/0/0/$1', ['filter' => 'authGuard']);
 $routes->post('/admin/master/anggota/hapususerkegiatan', 'Pendaftaran::hapus', ['filter' => 'authGuard']);
+
+// transaksi
+$routes->get('/admin/master/transaksi-masuk.html', 'Transaksi::index', ['filter' => 'authGuard']);
+$routes->get('/admin/master/transaksi-keluar.html', 'Transaksi::index', ['filter' => 'authGuard']);
+$routes->get('/admin/master/transaksi-masuk/getTagihan/(:num)/(:num)/(:segment)', 'Transaksi::getTagihan/$1/$2/$3', ['filter' => 'authGuard']);

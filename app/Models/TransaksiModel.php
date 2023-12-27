@@ -4,16 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class KegiatanModel extends Model
+class TransaksiModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'tbl_kegiatan';
-    protected $primaryKey       = 'id_kegiatan';
+    protected $table            = 'tbl_transaksi';
+    protected $primaryKey       = 'id_transaksi';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama_kegiatan','deskripsi_kegiatan','biaya','metode_bayar','tipe_bayar','pendaftaran','tahun','status_kegiatan','id_kategori'];
+    protected $allowedFields    = ['id_user_tr','id_kegiatan_tr','jmlh_bayar','tgl_bayar','status_tr','periode_bulan','periode_tahun','keterangan'];
 
     // Dates
     protected $useTimestamps = true;
